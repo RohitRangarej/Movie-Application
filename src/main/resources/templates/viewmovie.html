@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movies - Movieflix</title>
+<link rel="icon" href="images/MovieFlix_icon.svg" type="image/x-icon">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(to right, #ffecd2, #fcb69f);
+        margin: 0;
+        padding: 20px;
+    }
+
+    h2 {
+        color: #333;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px 0;
+        border: 2px solid #4CAF50;
+        background-color: white; /* Table background color */
+    }
+
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    form {
+        display: inline;
+    }
+
+    .message {
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #ffdddd;
+        border-left: 6px solid #f44336;
+    }
+    @media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 6px;
+    }
+
+    input[type="submit"] {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th, td {
+        font-size: 12px;
+        padding: 4px;
+    }
+
+    input[type="submit"] {
+        padding: 6px;
+    }
+
+    form {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    td form {
+        display: inline-block;
+    }
+}
+    
+</style>
+<script>
+    function confirmDelete(){
+        return confirm("Are you sure you want to delete the movie?");
+    }
+</script>
+</head>
+<body>
+    <div class="message" th:if="${message}" th:text="${message}"></div>
+    <h2>All Movies</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Movie ID</th>
+                <th>Movie Name</th>
+                <th>Movie Video</th>
+                <th>Movie Genre</th>
+                <th>Movie Cast</th>
+                <th>Movie Director</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="movie : ${movies}">
+                <td th:text="${movie.movie_id}"></td>
+                <td th:text="${movie.movieName}"></td>
+                <td th:utext="${movie.movieLink}"></td>
+                <td th:text="${movie.movieGenre}"></td>
+                <td th:text="${movie.movieCast}"></td>
+                <td th:text="${movie.movieDirector}"></td>
+                <td>
+                    <form action="updatemovie" method="post">
+                        <input type="hidden" name="movie_id" th:value="${movie.movie_id}">
+                        <input type="submit" value="Update">
+                    </form>
+                </td>
+                <td>
+                    <form action="deletemovie" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <input type="hidden" name="movie_id" th:value="${movie.movie_id}">
+                        <input type="submit" value="Delete" onclick="return confirmDelete()">
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <form action="login" method="post">
+        <input type="hidden" name="email" th:value="${email}">
+        <input type="hidden" name="password" th:value="${password}">
+        <input type="submit" value="Go Back">
+    </form>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Users - Movieflix</title>
+<link rel="icon" href="images/MovieFlix_icon.svg" type="image/x-icon">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+    }
+    
+    h2 {
+        color: #333;
+    }
+    
+    table {
+        border-collapse: collapse;
+        width: 80%;
+        margin: 20px 0;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+    
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+    
+    th {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    
+    tr:hover {
+        background-color: #ddd;
+    }
+    
+    form {
+        margin-top: 20px;
+    }
+    
+    input[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+    @media (max-width: 1024px) {
+    table {
+        width: 90%;
+    }
+
+    th, td {
+        padding: 8px;
+    }
+
+    input[type="submit"] {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    table {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 6px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    input[type="submit"] {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    table {
+        width: 100%;
+        font-size: 12px;
+    }
+
+    th, td {
+        padding: 4px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input[type="submit"] {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+}
+    
+</style>
+</head>
+<body>
+    <h2>All users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone No</th>
+                <th>Gender</th>
+                <th>Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}"></td>
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.phone}"></td>
+                <td th:text="${user.gender}"></td>
+                <td th:text="${user.address}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="login" method="post">
+        <input type="hidden" name="email" th:value="${email}">
+        <input type="hidden" name="password" th:value="${password}">
+        <input type="submit" value="Go back">
+    </form>
+</body>
+</html>

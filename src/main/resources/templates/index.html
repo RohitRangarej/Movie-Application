@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movieflix - Watch Movies!</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #fff;
+        background: linear-gradient(96.2deg, rgb(255, 230, 112) 10.4%, rgb(255, 100, 100) 43.8%, rgb(0, 93, 219) 105.8%);
+    }
+
+    .main-background {
+        background: url('images/MovieFlix_bg.jpg') center center / cover no-repeat;
+        height: 100vh;
+        display: flex;
+        color: black;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        backdrop-filter: blur(1px);
+        border-bottom: 8px solid #222;
+    }
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+    .message {
+        text-decoration: underline;
+        color: #ffba00;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .section {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+        text-align: left;
+        border-bottom: 8px solid #222;
+        gap: 20px;
+    }
+
+    .section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        flex: 1 1 50%;
+    }
+
+    .section p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        flex: 1 1 50%;
+    }
+
+    .section img {
+        max-width: 50%;
+        height: auto;
+        margin: 0 20px;
+        flex: 1 1 50%;
+    }
+
+    .footer {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        text-align: center;
+    }
+
+    .footer p {
+        font-size: 1rem;
+        margin: 10px 0;
+    }
+    
+    .footer a {
+    	color: #345EC3;
+    }
+
+    .social-icons img {
+        width: 40px;
+        margin: 0 10px;
+        vertical-align: middle;
+    }
+    
+    .scroll-down-link {
+	  position: absolute;
+	  left: 50%;
+	  bottom: 20px;
+	  transform: translateX(-50%);
+	  z-index: 1;
+	}
+	
+	.scroll-down {
+	  height: 50px;
+	  width: 30px;
+	  border: 2px solid black;
+	  border-radius: 50px;
+	  cursor: pointer;
+	}
+	
+	.scroll-down::before, .scroll-down::after {
+	  height: 10px;
+	  width: 10px;
+	  content: "";
+	  position: absolute;
+	  top: 20%;
+	  left: 50%;
+	  border: 2px solid #5b86e5;
+	  transform: translate(-50%, -100%) rotate(45deg);
+	  border-top: none;
+	  border-left: none;
+	  animation: scroll-down 1s ease-in-out infinite;
+	}
+	
+	.scroll-down::after {
+	  top: 30%;
+	  animation-delay: 0.3s
+	}
+	@keyframes hidden {
+	  0% {
+	    opacity: 0
+	  }
+	
+	  50% {
+	    opacity: 0
+	  }
+	
+	  100% {
+	    opacity: 1
+	  }
+	}
+	
+	@keyframes scroll-down {
+	  0% {
+	    opacity: 0
+	  }
+	
+	  30% {
+	    opacity: 1
+	  }
+	
+	  60% {
+	    opacity: 1
+	  }
+	
+	  100% {
+	    opacity: 0;
+	    top: 90%
+	  }
+	}
+
+	/* For devices with a max-width of 1200px */
+@media (max-width: 1200px) {
+    .main-background {
+        height: auto;
+        padding-bottom: 100px; /* Add space for the scroll-down button */
+        position: relative;
+        background-size: cover;
+    }
+
+    .logo {
+        max-width: 70%;
+    }
+
+    .main-background h1 {
+        font-size: 2.5rem;
+    }
+
+    .main-background p {
+        font-size: 1.2rem;
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 60px; /* Space for scroll-down button */
+    }
+
+    .scroll-down-link {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+
+    .scroll-down {
+        height: 45px;
+        width: 30px;
+    }
+
+    .section {
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .section img {
+        max-width: 70%;
+    }
+
+    .section h2 {
+        font-size: 2rem;
+    }
+
+    .section p {
+        font-size: 1.1rem;
+    }
+
+    .footer {
+        padding: 20px;
+    }
+
+    .footer p {
+        font-size: 1rem;
+    }
+
+    .social-icons img {
+        width: 35px;
+    }
+}
+
+/* For devices with a max-width of 992px */
+@media (max-width: 992px) {
+    .logo {
+        max-width: 60%;
+    }
+
+    .main-background h1 {
+        font-size: 2rem;
+    }
+
+    .main-background p {
+        font-size: 1rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 60px; /* Space for scroll-down button */
+    }
+
+    .scroll-down-link {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+
+    .scroll-down {
+        height: 40px;
+        width: 25px;
+    }
+
+    .section {
+        padding: 40px 15px;
+    }
+
+    .section img {
+        max-width: 80%;
+    }
+
+    .section h2 {
+        font-size: 1.8rem;
+    }
+
+    .section p {
+        font-size: 1rem;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+
+    .footer p {
+        font-size: 0.9rem;
+    }
+
+    .social-icons img {
+        width: 30px;
+    }
+}
+
+/* For devices with a max-width of 768px */
+@media (max-width: 768px) {
+    .main-background {
+        padding: 20px;
+        padding-bottom: 80px; /* Add space for the scroll-down button */
+    }
+
+    .logo {
+        max-width: 80%;
+    }
+
+    .main-background h1 {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+
+    .main-background p {
+        font-size: 1rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 60px; /* Space for scroll-down button */
+    }
+
+    .button-container button {
+        width: 100%;
+    }
+
+    .scroll-down-link {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+
+    .scroll-down {
+        height: 40px;
+        width: 25px;
+    }
+
+    .section {
+        padding: 40px 10px;
+    }
+
+    .section img {
+        max-width: 80%;
+    }
+
+    .section h2 {
+        font-size: 1.8rem;
+    }
+
+    .section p {
+        font-size: 1rem;
+    }
+
+    .footer {
+        padding: 15px;
+    }
+
+    .footer p {
+        font-size: 0.9rem;
+    }
+
+    .social-icons img {
+        width: 30px;
+    }
+}
+
+/* For devices with a max-width of 576px */
+@media (max-width: 576px) {
+    .main-background {
+        padding: 10px;
+        padding-bottom: 80px; /* Add space for the scroll-down button */
+    }
+
+    .logo {
+        max-width: 90%;
+    }
+
+    .main-background h1 {
+        font-size: 1.5rem;
+    }
+
+    .main-background p {
+        font-size: 0.9rem;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 60px; /* Space for scroll-down button */
+    }
+
+    .button-container button {
+        width: 100%;
+    }
+
+    .scroll-down-link {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+    }
+
+    .scroll-down {
+        height: 35px;
+        width: 20px;
+    }
+
+    .section {
+        padding: 30px 10px;
+    }
+
+    .section img {
+        max-width: 90%;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+    }
+
+    .section p {
+        font-size: 0.9rem;
+    }
+
+    .footer {
+        padding: 10px;
+    }
+
+    .footer p {
+        font-size: 0.8rem;
+    }
+
+    .social-icons img {
+        width: 25px;
+    }
+}
+</style>
+<script>
+function register() {
+    window.location.href = 'map-register';
+}
+
+function login() {
+    window.location.href = 'map-login';
+}
+</script>
+<link rel="icon" href="/images/MovieFlix_icon.svg" type="image/x-icon">
+</head>
+<body>
+    <div class="main-background">
+        <img src="/images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+        <h1>Welcome to Movieflix!</h1>
+        <p>Watch your favorite movies online.</p>
+        <div th:if="${message}" th:text="${message}" class="message"></div>
+        <div class="button-container">
+            <button onclick="register()">Register</button>
+            <button onclick="login()">Login</button>
+        </div>
+        <a href="#details" class="scroll-down-link" aria-label="scroll-down">
+	      <div class="scroll-down"></div>
+		</a>
+    </div>
+    <div id="details" class="section" style="background: none;">
+        <img src="images/MovieFlix_index_images/screens.png" alt="Enjoy on your Screens">
+        <div>
+            <h2>Enjoy on your Screens</h2>
+            <p>Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.</p>
+        </div>
+    </div>
+
+    <div class="section" style="background: none;">
+        <img src="images/MovieFlix_index_images/watch.png" alt="Watch everywhere">
+        <div>
+            <h2>Watch everywhere</h2>
+            <p>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</p>
+        </div>
+    </div>
+
+    <div class="section" style="background: none;">
+        <img src="images/MovieFlix_index_images/quick_info.jpg" alt="Have quick information">
+        <div>
+            <h2>Have quick information</h2>
+            <p>Can have very quick information about your account and the movie.</p>
+        </div>
+    </div>
+
+    <div class="section" style="background: none;">
+        <img src="images/MovieFlix_index_images/update_profile.png" alt="Profile update">
+        <div>
+            <h2>Profile update</h2>
+            <p>Update your profile's specific data or whole profile any time easily and quickly.</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Connect with us on social media</p>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/profile.php?id=61563477599707"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon"></a>
+            <a href="https://x.com/AtsupMovfx73326"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/X_banner.svg" alt="X" class="social-icon"></a>
+            <a href="https://www.instagram.com/sup.admin.movieflix/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon"></a>
+            <a href="mailto:sup.at.movieflix@gmail.com"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail" class="social-icon"></a>
+        </div>
+        <p>&copy; 2024 Movieflix. All rights reserved.</p>
+        <a href="map-terms">Terms of Service</a>
+        <a href="map-privacy">Privacy Policy</a>
+    </div>
+</body>
+</html>

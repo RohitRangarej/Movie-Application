@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Movieflix</title>
+<link rel="icon" href="/images/MovieFlix_icon.svg" type="image/x-icon">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('images/MovieFlix_home.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(1px);
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Black background with less opacity */
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 32px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+p {
+    font-size: 18px;
+    margin: 10px 0 20px;
+    line-height: 1.6;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+form {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    border-radius: 4px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.btn-delete {
+    background-color: #ff4c4c;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #cc0000;
+}
+
+.message {
+    text-decoration: underline;
+    color: #ffba00;
+    margin-top: 10px;
+    font-weight: bold;
+}
+@media (max-width: 1200px) {
+    header, main {
+        width: 80%;
+    }
+}
+
+@media (max-width: 992px) {
+    header, main {
+        width: 90%;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    input[type="submit"] {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    header, main {
+        width: 95%;
+    }
+
+    .logo {
+        width: 120px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        padding: 10px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding: 10px;
+    }
+
+    header, main {
+        padding: 15px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    input[type="submit"] {
+        padding: 8px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 400px) {
+    body {
+        padding: 5px;
+    }
+
+    header, main {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 80px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 10px;
+    }
+
+    input[type="submit"] {
+        padding: 6px;
+        font-size: 10px;
+    }
+}
+
+</style>
+<script>
+	function confirmLogout(){
+		return confirm("Are you sure you want to logout? Thank you, Admin!");
+	}
+</script>
+</head>
+<body>
+    <header>
+        <img src="images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+        <h2>Welcome to Movieflix, <b>Admin</b></h2>
+        <p>Your ultimate destination for streaming movies. Explore a vast collection of movies, update your profile, or manage your account easily.</p>
+        <div th:if="${message}" th:text="${message}" class="message"></div>
+    </header>
+    <main>
+        <form action="viewuser">
+            <input type="submit" value="View Users" class="btn">
+        </form>
+        <form action="admin-updateuser">
+            <input type="submit" value="Update Users" class="btn">
+        </form>
+        <form action="admin-deleteuser">
+            <input type="submit" value="Delete Users" class="btn-delete">
+        </form>
+        <form action="map-addmovie">
+            <input type="submit" value="Add Movie" class="btn">
+        </form>
+        <form action="viewmovie">
+            <input type="submit" value="View/Manage Movies" class="btn">
+        </form>
+        <form action="logout">
+            <input type="submit" value="Logout" class="btn" onclick="return confirmLogout()">
+        </form>
+    </main>
+</body>
+</html>

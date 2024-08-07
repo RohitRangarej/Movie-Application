@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Update - Movieflix</title>
+<link rel="icon" href="/images/MovieFlix_icon.svg" type="image/x-icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7); /* Black background with less opacity */
+    color: white;
+    text-align: center;
+}
+
+.logo {
+    width: 100px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 36px;
+    margin: 0;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    background: rgba(0, 0, 0, 0.8); /* Dark background with less opacity */
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+    height: 100px;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.radio-group label {
+    margin: 0;
+}
+
+.radio-group input {
+    margin-right: 10px;
+}
+
+@media (max-width: 600px) {
+    .form-container {
+        padding: 10px;
+        box-shadow: none;
+    }
+
+    input[type="submit"] {
+        padding: 8px 16px;
+    }
+}
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 30px;
+}
+
+.password-container .eye-icon {
+    position: absolute;
+    color: black;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    background-color: #555;
+    color: #FEF5B2;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 105%; /* Position above the icon */
+    left: 95%;
+    margin-left: -50px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.password-container .eye-icon:hover + .tooltip,
+.password-container .eye-icon:focus + .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+@media (max-width: 768px) {
+    header {
+        padding: 15px;
+    }
+
+    header .logo {
+        width: 80px;
+        margin-bottom: 10px;
+    }
+
+    header h2 {
+        font-size: 28px;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .form-container {
+        padding: 15px;
+        margin: 15px;
+    }
+
+    input[type="submit"] {
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+
+    header .logo {
+        width: 60px;
+        margin-bottom: 5px;
+    }
+
+    header h2 {
+        font-size: 24px;
+    }
+
+    main {
+        padding: 10px;
+    }
+
+    .form-container {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    input[type="submit"] {
+        padding: 6px 12px;
+    }
+}
+
+
+</style>
+<script>
+	function validateForm(){
+		var nameInput=document.getElementById("name");
+		var phone=document.getElementById("phone").value;
+		if(nameInput.value.trim() === ""){
+			nameInput.value="User";
+		}
+		if(phone === ""){
+			alert("Phone number must be 10 digits");
+			return false;
+		}
+		return true;
+	}
+</script>
+</head>
+<body>
+    <header>
+        <img src="/images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+        <h2>Update Profile</h2>
+    </header>
+    <main>
+        <div class="form-container">
+            <h3>Enter details to update for: "<b th:text="${user.email}"></b>"</h3>
+            <form action="updateuser" method="post">
+                <input type="hidden" name="_method" value="put">
+                
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:value="${user.name}">
+                
+                <input type="hidden" name="email" th:value="${user.email}" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required="required">
+                
+                <label for="password">Password:</label>
+  				<div class="password-container">
+                <input type="password" id="password" name="password" th:value="${user.password}" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+  title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters" required="required">
+		        <i class="far fa-eye eye-icon" id="togglePassword"></i>
+		        <div class="tooltip">Show Password</div>
+		    </div>
+		    <script>
+		        const togglePassword = document.querySelector('#togglePassword');
+		        const password = document.querySelector('#password');
+		        const tooltip = document.querySelector('.tooltip');
+		
+		        togglePassword.addEventListener('click', function (e) {
+		            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		            password.setAttribute('type', type);
+		            this.classList.toggle('fa-eye-slash');
+		            tooltip.textContent = type === 'password' ? 'Show Password' : 'Hide Password';
+		        });
+		    </script>
+                
+                <label>Gender:</label>
+                <div class="radio-group">
+                	<input type="hidden" id="">
+                
+                    <label for="male">Male</label>
+                    <input type="radio" id="gender" name="gender" value="male" th:if="${male}" th:checked="checked" >
+                    <input type="radio" id="gender" name="gender" value="male" th:unless="${male}" th:text="${male}">
+                    
+                    <label for="female">Female</label>
+                    <input type="radio" id="gender" name="gender" value="female" th:if="${female}" th:checked="checked" th:unless="${other}">
+                    <input type="radio" id="gender" name="gender" value="female" th:unless="${female}" th:text="${female}">
+                    
+                    <label for="other">Other</label>
+                    <input type="radio" id="gender" name="gender" value="other" th:if="${other}" th:checked="checked">
+                    <input type="radio" id="gender" name="gender" value="other" th:unless="${other}" th:text="${other}">
+                    
+                </div>
+                
+                <label for="phone">Phone no:</label>
+                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" th:value="${user.phone}" title="Phone number must be 10 digits">
+                
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" th:text="${user.address}"></textarea>
+                
+                <input type="submit" value="Update">
+            </form>
+        </div>
+    </main>
+</body>
+</html>

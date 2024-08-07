@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movieflix</title>
+<link rel="icon" href="/images/MovieFlix_icon.svg" type="image/x-icon">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(58, 123, 213, 0.8), rgba(0, 210, 255, 0.8), rgba(58, 123, 213, 0.8));
+    margin: 0;
+    color: white;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 10);
+    text-align: center;
+}
+
+.logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+p {
+    margin: 10px 0;
+}
+
+.actions {
+    margin-top: 20px;
+}
+
+.actions a {
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.btn {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.btn:hover {
+    background-color: #cc0000;
+}
+@media (max-width: 1024px) {
+    .container {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .logo {
+        width: 130px;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 10px;
+    }
+
+    .logo {
+        width: 120px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    p {
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 100%;
+        padding: 5px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    p {
+        font-size: 12px;
+    }
+
+    .btn {
+        padding: 4px 8px;
+        font-size: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+    <div class="container">
+        <img src="/images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+        <h2>Registration Failed</h2>
+        <p>This email has already been registered. Please use a different email to register.</p>
+        
+        <div class="actions">
+            <p>To register again with another email, click the button below:</p>
+            <a href="/map-register">
+                <button class="btn">Register</button>
+            </a>
+            <p>Or go back to the homepage:</p>
+            <a href="/">
+                <button class="btn">Go Back</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <title>Home - Movieflix</title>
+    <link rel="icon" href="/images/MovieFlix_icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #141414;
+            color: white;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+        	padding: 0;
+        	margin: 0;
+            width: 200px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 90vh;
+            background-image: url('images/MovieFlix_home.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .hero-content .btn {
+            font-size: 20px;
+            padding: 15px 30px;
+            margin: 0 10px;
+        }
+
+        .btn-primary {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #f40612;
+        }
+
+        .btn-secondary {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: #555;
+        }
+
+        .movie-section {
+            padding: 50px 20px;
+        }
+
+        .movie-section h2 {
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 36px;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            gap: 20px;
+        }
+
+        .movie-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .movie-item img {
+            width: 100%;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .movie-item .movie-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .movie-item:hover .movie-info {
+            opacity: 1;
+        }
+
+        .footer {
+            background-color: #141414;
+            color: #737373;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #737373;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 8px 12px;
+        }
+
+        .dropdown-item strong {
+            display: inline-block;
+            width: 70px;
+        }
+		
+.cta-btn {
+  display: inline-block;
+  position: relative;
+  padding: 0.8rem 1.6rem;
+  font-weight: bold;
+  line-height: 1;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: 3px;
+  transition: all cubic-bezier(0.19, 1, 0.22, 1) 0.6s
+}
+
+a {
+  text-decoration: none;
+  font-size: 1.6rem
+}
+
+a:hover {
+  transition: all 0.3s ease-in-out
+}
+.cta-btn:hover {
+  box-shadow: 1.5px 1.5px 3px rgba(174, 174, 192, 0.4), -1px -1px 3px #fff
+}
+.cta-btn::after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-image: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+  width: 0px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  transition: all cubic-bezier(0.19, 1, 0.22, 1) 0.6s
+}
+.cta-btn--hero {
+  color: #5b86e5;
+  -webkit-text-fill-color: #5b86e5;
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #36d1dc 0%, #5b86e5 100%);
+  border-image-slice: 1
+}
+.cta-btn--hero::after {
+  height: 410%;
+  width: 150%;
+  transform: translate(-98%, -25%) rotate(45deg)
+}
+.cta-btn--hero:hover {
+  -webkit-text-fill-color: #fff;
+  text-decoration: none
+}
+.cta-btn--hero:hover::after {
+  transform: translate(-9%, -25%) rotate(45deg)
+}
+	.scroll-down-link {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.scroll-down {
+  height: 50px;
+  width: 30px;
+  border: 2px solid white;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+.scroll-down::before, .scroll-down::after {
+  height: 10px;
+  width: 10px;
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  border: 2px solid #5b86e5;
+  transform: translate(-50%, -100%) rotate(45deg);
+  border-top: none;
+  border-left: none;
+  animation: scroll-down 1s ease-in-out infinite;
+}
+
+.scroll-down::after {
+  top: 30%;
+  animation-delay: 0.3s
+}
+@keyframes hidden {
+  0% {
+    opacity: 0
+  }
+
+  50% {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+@keyframes scroll-down {
+  0% {
+    opacity: 0
+  }
+
+  30% {
+    opacity: 1
+  }
+
+  60% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0;
+    top: 90%
+  }
+}
+	.message{
+	text-decoration: underline;
+    color: #ffba00;
+    margin-top: 10px;
+    font-weight: bold;
+    z-index: 1;
+}
+	.delete{
+	color: red;
+}
+
+    .socials {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .social-icon:hover {
+        transform: scale(1.2);
+    }
+
+    .socialp{
+    text-align: center;
+    }
+
+	header a:hover{
+		text-decoration: underline;
+	}
+	@media (max-width: 1200px) {
+    .hero-content h1 {
+        font-size: 48px;
+    }
+
+    .hero-content p {
+        font-size: 20px;
+    }
+
+    .movie-section h2 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 992px) {
+    nav a {
+        font-size: 16px;
+        margin-left: 10px;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content p {
+        font-size: 18px;
+    }
+
+    .hero-content .btn {
+        font-size: 18px;
+        padding: 10px 20px;
+        margin: 5px;
+    }
+
+    .movie-grid {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media (max-width: 768px) {
+    nav a {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .hero-content .btn {
+        font-size: 16px;
+        padding: 8px 16px;
+        margin: 5px;
+    }
+
+    .movie-grid {
+        grid-template-columns: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo {
+        width: 150px;
+    }
+
+    .hero-content h1 {
+        font-size: 24px;
+    }
+
+    .hero-content p {
+        font-size: 14px;
+    }
+
+    .hero-content .btn {
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+
+    .movie-section h2 {
+        font-size: 24px;
+    }
+
+    .social-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 400px) {
+    .hero-content h1 {
+        font-size: 20px;
+    }
+
+    .hero-content p {
+        font-size: 12px;
+    }
+
+    .hero-content .btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .movie-section h2 {
+        font-size: 20px;
+    }
+
+    nav a {
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
+    .social-icon {
+        width: 25px;
+        height: 25px;
+    }
+}
+	
+    </style>
+    <script>
+    	function confirmLogout(){
+    		return confirm("Are you sure you want to logout? Thank you for watching MovieFlix!");
+    	}
+    	function confirmDelete() {
+            if (confirm("Are you sure you want to delete your account?")) {
+                document.getElementById('deleteForm').submit();
+            }
+            return false;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img src="images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+        <nav>
+            <a href="#explore">Explore Movies</a>
+            <div class="dropdown">
+                <a class="profile">Profile</a>
+                <div class="dropdown-content">
+                    <div class="dropdown-item" th:if="${name}">
+                        <strong>Name:</strong>
+                        <span th:text="${name}"></span>
+                    </div>
+                    <div class="dropdown-item" th:if="${email}">
+                        <strong>Email:</strong>
+                        <span th:text="${email}"></span>
+                    </div>
+                    <div class="dropdown-item" th:if="${gender}">
+                        <strong>Gender:</strong>
+                        <span th:text="${gender}"></span>
+                    </div>
+                    <div class="dropdown-item" th:if="${phone}">
+                        <strong>Phone:</strong>
+                        <span th:text="${phone}"></span>
+                    </div>
+                    <div class="dropdown-item" th:if="${address}">
+                        <strong>Address:</strong>
+                        <span th:text="${address}"></span>
+                    </div>
+                </div>
+            </div>
+            <a href="logout" onclick="return confirmLogout()">Logout</a>
+            <a href="#" class="delete" onclick="return confirmDelete()">Delete-Account</a>
+            <form id="deleteForm" th:action="@{/deleteuser}" method="post" style="display:none;">
+		        <input type="hidden" name="_method" value="delete"/>
+		    </form>
+        </nav>
+    </header>
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome to Movieflix, <b th:text="${name}"></b></h1>
+            <p>Your ultimate destination for streaming movies.</p>
+            <button th:if="${premium}" class="btn btn-primary" onclick="window.location.href='exploremovies'">Watch Movies</button>
+            <button th:unless="${premium}" class="btn btn-primary" onclick="window.location.href='exploremovies'">Get Subscription</button>
+            <button class="btn btn-secondary" onclick="window.location.href='updateprofile'">Update Profile</button>
+        </div>
+	    <p class="hero-cta">
+	        <a class="cta-btn cta-btn--hero" href="#contact-us">Get in touch</a>
+	    </p>
+	    <div th:if="${message}" th:text="${message}" class="message"></div>
+	</section>
+    <a href="#explore" class="scroll-down-link" aria-label="scroll-down">
+      <div class="scroll-down"></div>
+    </a>
+    <section class="movie-section" id="explore">
+        <h2>Top Picks For You</h2>
+        <div class="movie-grid">
+            <!-- Repeat this block for each movie -->
+            <div class="movie-item" th:each="movie : ${previewMovies}">
+                <img th:src="${movie.movieLink}" th:alt="${movie.movie_id}">
+                <div class="movie-info">
+                    <h3 th:text="${movie.movieName}"></h3>
+                    <p th:text="${movie.movieGenre}"></p>
+                </div>
+            </div>
+            <!-- More movie items -->
+        </div>
+    </section>
+    <p class="socialp">Connect with us on social media</p>
+    <div class="socials" id="contact-us">
+        <a href="https://www.facebook.com/profile.php?id=61563477599707"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" alt="Facebook" class="social-icon"></a>
+        <a href="https://x.com/AtsupMovfx73326"><img src="https://upload.wikimedia.org/wikipedia/commons/9/96/X_banner.svg" alt="X" class="social-icon"></a>
+        <a href="https://www.instagram.com/sup.admin.movieflix/"><img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" alt="Instagram" class="social-icon"></a>
+        <a href="mailto:sup.at.movieflix@gmail.com"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" alt="Gmail" class="social-icon"></a>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Movieflix. All rights reserved.</p>
+        <a href="map-terms">Terms of Service</a>
+    	<a href="map-privacy">Privacy Policy</a>
+    </footer>
+</body>
+</html>

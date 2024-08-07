@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Movieflix</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="icon" href="images/MovieFLix_icon.svg" type="image/x-icon">
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('images/MovieFlix_login.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    color: white;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    background: rgba(1, 1, 1, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(10, 10, 10, 10);
+    text-align: center;
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 500px;
+}
+
+h3 {
+    margin-top: 20px;
+    font-size: 24px;
+    color: #FEF5B2;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px 0;
+    color: #FEF5B2; /* Text color in white */
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 0.2); /* Light background with less opacity */
+    color: white; /* Text color in white */
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #007bff; /* Blue border on focus */
+}
+
+/* Chrome, Safari, and Opera */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.2) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox */
+input:-moz-autofill,
+input:-moz-autofill:hover,
+input:-moz-autofill:focus {
+  -moz-text-fill-color: white;
+  box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.2) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Edge */
+input:-ms-autofill,
+input:-ms-autofill:hover,
+input:-ms-autofill:focus {
+  -ms-text-fill-color: white;
+  box-shadow: 0 0 0 30px rgba(255, 255, 255, 0.2) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+.password-container {
+    position: relative;
+}
+
+.password-container input {
+    padding-right: 30px;
+}
+
+.password-container .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.tooltip {
+    visibility: hidden;
+    width: 100px;
+    background-color: #555;
+    color: #FEF5B2;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 105%; /* Position above the icon */
+    left: 95%;
+    margin-left: -50px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.password-container .eye-icon:hover + .tooltip,
+.password-container .eye-icon:focus + .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.forgot-password-container {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.forgot-password {
+    color: #FEF5B2;
+    text-decoration: none;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.forgot-password-message{
+	text-decoration: underline;
+    color: #ffba00;
+    background: rgba(1, 1, 1, 0.5);
+    margin-top: 10px;
+    font-weight: bold;
+    z-index: 1;
+}
+.login-failure {
+    background-color: rgba(216, 157, 49, 0.7);
+    color: black;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-failure h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    text-decoration: underline;
+}
+
+.login-failure p {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.login-failure .actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.login-failure .actions .btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.login-failure .actions .btn:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .logo {
+        width: 100px;
+    }
+
+    input[type="submit"] {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .login-failure h2 {
+        font-size: 1.25rem;
+    }
+
+    .login-failure .actions .btn {
+        padding: 8px 16px;
+        font-size: 0.875rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .logo {
+        width: 80px;
+    }
+
+    input[type="submit"] {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .login-failure h2 {
+        font-size: 1rem;
+    }
+
+    .login-failure .actions .btn {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+}
+</style>
+<script>
+	function forgotPassword() {
+		var pas1=document.getElementById('email');
+		var pas2=document.getElementById('for-password-email');
+		pas2.value = pas1.value;
+	    document.getElementById('forgot-password').submit();
+	}
+</script>
+</head>
+<body>
+	<img src="images/MovieFlix_logo.png" alt="Movieflix Logo" class="logo">
+    <div class="container">
+        <h3>Login to your account</h3>
+        <form action="login" method="post">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required="required">
+            <br><br>
+            <label for="password">Password:</label>
+            <div class="password-container">
+		        <input type="password" id="password" name="password" required="required">
+		        <i class="far fa-eye eye-icon" id="togglePassword"></i>
+		        <div class="tooltip">Show Password</div>
+		    </div>
+		    <script>
+		        const togglePassword = document.querySelector('#togglePassword');
+		        const password = document.querySelector('#password');
+		        const tooltip = document.querySelector('.tooltip');
+		
+		        togglePassword.addEventListener('click', function (e) {
+		            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		            password.setAttribute('type', type);
+		            this.classList.toggle('fa-eye-slash');
+		            tooltip.textContent = type === 'password' ? 'Show Password' : 'Hide Password';
+		        });
+		    </script>
+		    <div class="forgot-password-container">
+                <a href="#" class="forgot-password" onclick="return forgotPassword()">Forgot Password?</a>
+            </div>
+		    <span class="forgot-password-message" th:if="${forgot_password_message}" th:text="${forgot_password_message}"></span>
+            <br><br>
+            <input type="submit" value="Login">
+            </form>
+            <div class="login-failure" th:if="${login_failure}">
+            	<h2>Login Failed!</h2>
+		        <p>The provided information is not registered. Please try again or register a new account.</p>
+		        <div class="actions">
+		            <form action="/map-register" method="get">
+		                <button type="submit" class="btn">Register</button>
+		            </form>
+		            <form action="/" method="get">
+		                <button type="submit" class="btn">Go Back</button>
+		            </form>
+		        </div>
+            </div>
+        <form id="forgot-password" th:action="@{/forgot-password}" method="post" style="display:none;">
+	        <input type="hidden" id="for-password-email" name="email" th:value="default"/>
+	    </form>
+    </div>
+</body>
+</html>
