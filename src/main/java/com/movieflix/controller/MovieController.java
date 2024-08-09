@@ -51,22 +51,32 @@ public class MovieController {
 	public String forMovieUpdate(@RequestParam int movie_id, Model model) {
 		Movie movie=movieServ.getMovie(movie_id);
 		String[] allGenres= {"SciFi","Horror","Thriller","Slice of life","Comedy","Action","Fantasy","Romance","Sports","Adventure","Mythology"};
-		String[] checkedGenres=movie.getMovieGenre().replaceAll(", ", ",").split(",");
 		List<String> unCheckedGenres=new ArrayList<>();
-		for(int i=0;i<allGenres.length;i++) {
-			for(int j=0;j<checkedGenres.length;j++) {
-				if(allGenres[i].equals(checkedGenres[j])) {
-					break;
-				}
-				if(j==checkedGenres.length-1) {
-					unCheckedGenres.add(allGenres[i]);
+		if(movie.getMovieGenre() == null || movie.getMovieGenre().trim().isEmpty()) {
+			for(int i=0;i<allGenres.length;i++) {
+				unCheckedGenres.add(allGenres[i]);
+			}
+			model.addAttribute("movie", movie);
+			model.addAttribute("unCheckedGenres", unCheckedGenres);
+			return "movieupdate";
+		}
+		else {
+			String[] checkedGenres=movie.getMovieGenre().replaceAll(", ", ",").split(",");
+			for(int i=0;i<allGenres.length;i++) {
+				for(int j=0;j<checkedGenres.length;j++) {
+					if(allGenres[i].equals(checkedGenres[j])) {
+						break;
+					}
+					if(j==checkedGenres.length-1) {
+						unCheckedGenres.add(allGenres[i]);
+					}
 				}
 			}
+			model.addAttribute("movie", movie);
+			model.addAttribute("checkedGenres", checkedGenres);
+			model.addAttribute("unCheckedGenres", unCheckedGenres);
+			return "movieupdate";
 		}
-		model.addAttribute("movie", movie);
-		model.addAttribute("checkedGenres", checkedGenres);
-		model.addAttribute("unCheckedGenres", unCheckedGenres);
-		return "movieupdate";
 	}
 	@PutMapping("updatedmovie")
 	public String movieUpdate(@RequestParam int id, @ModelAttribute Movie movie) {
